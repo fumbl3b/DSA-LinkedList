@@ -42,6 +42,35 @@ class LinkedList {
     return currNode;
   }
 
+  findPrevious(item) {
+    if(!this.head) {
+      console.log(`${item} not found`);
+      return;
+    }
+    let currNode = this.head;
+    let prevNode = null;
+    while(currNode.value !== item) {
+      if(!currNode.next) {
+        console.log(`${item} not found`);
+        return;
+      }
+      prevNode = currNode;
+      currNode = currNode.next;
+    }
+    return prevNode.value;
+  }
+
+  findLast() {
+    if(!this.head) {
+      return;
+    }
+    let currNode = this.head;
+    while(currNode.next) {
+      currNode = currNode.next;
+    }
+    return currNode.value;
+  }
+
   remove(item) {
     //if empty list
     if(!this.head) {
@@ -84,6 +113,20 @@ class LinkedList {
     process.stdout.write('\n\n');
   }
 
+  size() {
+    if(!this.head) {
+      return 0;
+    }
+    let counter = 1;
+    let node = this.head;
+
+    while(node.next) {
+      node = node.next;
+      counter++;
+    }
+    return counter;
+  }
+
   insertBefore(item, newItem) {
     if(!this.head) {
       console.log(`"${item}" not found`);
@@ -93,7 +136,7 @@ class LinkedList {
     let currNode = this.head;
     let prevNode = null;
 
-    while(currNode && currNode.value !== item) {
+    while(currNode.value !== item) {
       if(!currNode.next) {
         console.log(`"${item}" not found`);
         return;
@@ -101,9 +144,18 @@ class LinkedList {
       prevNode = currNode;
       currNode = currNode.next;
     }
+    
     const newListItem = new _Node(newItem);
     newListItem.next = currNode;
-    prevNode.next = newListItem;
+    if(!prevNode) {
+      this.insertFirst(newItem);
+    } else {
+      prevNode.next = newListItem;
+    }
+  }
+
+  isEmpty() {
+    return !!this.head;
   }
 
   insertAfter(item, newItem) {
